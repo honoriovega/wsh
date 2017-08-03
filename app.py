@@ -1,4 +1,4 @@
-import urllib
+import urllib2
 import re
 import sys
 from bs4 import BeautifulSoup
@@ -39,7 +39,7 @@ def buildLink(html):
 #  finds all the links to worldstar videos from a page
 def getLinks(mainLink):
 
-    html = urllib.urlopen(mainLink).read()
+    html = urllib2.urlopen(mainLink).read()
     base = 'http://www.worldstarhiphop.com'
     pattern = '/videos/video\.php\?v=[A-z0-9]+'
 
@@ -64,7 +64,7 @@ def getJson(videoLink):
                  'imgUrl' : '', 'disqusLink' : '', 'link' : videoLink, 'about' : ''}
 
     try:
-        data = urllib.urlopen(videoLink).read()
+        data = urllib2.urlopen(videoLink).read()
         disqusLink = buildLink(data)
         soup = BeautifulSoup(data,'html.parser')
 
