@@ -62,12 +62,12 @@ def getJson(videoLink):
 
     videoInfo = {'title' : '', 'views' : '', 'date' : '', 'videolink' : '',
                  'imgUrl' : '', 'disqusLink' : '', 'link' : videoLink, 'about' : ''}
- 
+
     try:
         data = urllib.urlopen(videoLink).read()
         disqusLink = buildLink(data)
         soup = BeautifulSoup(data,'html.parser')
-        
+
         title = soup.find('h1').text
         views = soup.find('strong', attrs={'class': 'watch-view-count'}).text
         date = soup.find('time', attrs={'class': 'date'})['datetime']
@@ -83,23 +83,23 @@ def getJson(videoLink):
         videoInfo['about']  =  about.encode('utf-8')
 
     except:
-		# handle errors here
-		return videoInfo
+        # handle errors here
+        return videoInfo
 
-        
+
     return videoInfo
 
 # find all videos from a page and return json data for each video
 def getAllJson():
-    
+
     mainLink = 'http://www.worldstarhiphop.com/videos/search.php?s=' + 'strip club'.replace(' ','+')
-    
+
     datajson = [getJson(link) for link in getLinks(mainLink) ]
 
     # sort the video by upload date
     datajson = sorted(datajson, key=lambda k: k['date'],reverse=True)
 
-    return json.dumps(datajson)    
+    return json.dumps(datajson)
 
 
 
